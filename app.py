@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 
 app = Flask(__name__)
 
@@ -7,10 +7,14 @@ app = Flask(__name__)
 def index(name):
     return f"<h1>hello {name}.</h1>"
 
+@app.route('/theform', methods=['GET', 'POST'])
+def theform():
+    if request.method == 'GET':
+        return render_template('form.html')
 
-@app.route("/home")
-def home():
-    return "<h1>You are at home.</h1>"
+@app.route("/home/<string:name>", methods=['GET'])
+def home(name):
+    return render_template('home.html', name=name)
 
 
 @app.route("/jsonify")
